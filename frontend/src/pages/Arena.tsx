@@ -85,7 +85,7 @@ export default function Arena() {
       <div className="text-center">
         <h1 className="text-3xl font-bold mb-2">CLIP Arena</h1>
         <p className="text-gray-400 text-sm">
-          Upload a furniture image. Vote for the result set that best matches it. Discover which model wins.
+          Upload a furniture image. Vote for the result set that best matches it. Discover which model wins — original or fine-tuned CLIP.
         </p>
       </div>
 

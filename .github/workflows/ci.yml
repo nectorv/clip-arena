@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest httpx
+
+      - name: Run tests
+        env:
+          LAMBDA_URL_ORIGINAL: http://fake-original.lambda-url/
+          LAMBDA_URL_FINETUNED: http://fake-finetuned.lambda-url/
+          QDRANT_URL_ORIGINAL: http://fake-qdrant-original/
+          QDRANT_API_KEY_ORIGINAL: fake-key
+          QDRANT_COLLECTION_ORIGINAL: furniture_items
+          QDRANT_URL_FINETUNED: http://fake-qdrant-finetuned/
+          QDRANT_API_KEY_FINETUNED: fake-key
+          QDRANT_COLLECTION_FINETUNED: furniture_items
+        run: pytest tests/ -v

@@ -4,7 +4,7 @@ A web app to compare the performance of an **original** vs **fine-tuned** CLIP V
 
 Upload a furniture image — both models search their respective vector databases in parallel — you vote for the better result set — the winner is revealed.
 
-**Live demo:** https://djti9taa0h749.cloudfront.net
+**Live demo:** [https://djti9taa0h749.cloudfront.net](https://djti9taa0h749.cloudfront.net)
 
 ---
 

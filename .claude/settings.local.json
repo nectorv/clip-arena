@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(aws sts get-caller-identity:*)",
+      "Bash(aws budgets describe-budgets:*)",
+      "Bash(aws ce get-cost-and-usage:*)",
+      "Bash(aws ce:*)"
+    ]
+  }
+}

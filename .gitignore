@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+arena.db
+node_modules/
+dist/
+.DS_Store

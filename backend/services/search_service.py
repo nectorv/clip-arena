@@ -17,9 +17,11 @@ class SearchService:
         qdrant_url: str,
         qdrant_api_key: str,
         collection_name: str,
+        vector_name: str,
     ):
         self.clip = LambdaCLIPService(url=lambda_url)
         self.collection = collection_name
+        self.vector_name = vector_name
         self.client = QdrantClient(
             url=qdrant_url,
             api_key=qdrant_api_key,
@@ -36,6 +38,7 @@ class SearchService:
         results = self.client.query_points(
             collection_name=self.collection,
             query=vec.tolist(),
+            using=self.vector_name,
             limit=top_k,
             with_payload=True,
         )

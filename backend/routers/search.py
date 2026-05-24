@@ -18,16 +18,18 @@ executor = ThreadPoolExecutor(max_workers=4)
 
 original_service = SearchService(
     lambda_url=settings.LAMBDA_URL_ORIGINAL,
-    qdrant_url=settings.QDRANT_URL_ORIGINAL,
-    qdrant_api_key=settings.QDRANT_API_KEY_ORIGINAL,
-    collection_name=settings.QDRANT_COLLECTION_ORIGINAL,
+    qdrant_url=settings.QDRANT_URL,
+    qdrant_api_key=settings.QDRANT_API_KEY,
+    collection_name=settings.QDRANT_COLLECTION,
+    vector_name="clip_original",
 )
 
 finetuned_service = SearchService(
     lambda_url=settings.LAMBDA_URL_FINETUNED,
-    qdrant_url=settings.QDRANT_URL_FINETUNED,
-    qdrant_api_key=settings.QDRANT_API_KEY_FINETUNED,
-    collection_name=settings.QDRANT_COLLECTION_FINETUNED,
+    qdrant_url=settings.QDRANT_URL,
+    qdrant_api_key=settings.QDRANT_API_KEY,
+    collection_name=settings.QDRANT_COLLECTION,
+    vector_name="clip_finetuned",
 )
 
 

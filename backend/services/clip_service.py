@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class LambdaCLIPService:
-    def __init__(self, url: str, timeout: int = 30):
+    def __init__(self, url: str, timeout: int = 60):
         self.url = url
         self.timeout = timeout
         self._last_warm = 0.0
@@ -58,7 +58,7 @@ class LambdaCLIPService:
                     self.url,
                     data=buf.getvalue(),
                     headers={"Content-Type": "application/octet-stream"},
-                    timeout=5,
+                    timeout=40,
                 )
             except Exception:
                 pass

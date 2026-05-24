@@ -17,6 +17,10 @@ app.add_middleware(
 @app.on_event("startup")
 def startup():
     init_db()
+    # Pre-warm both Lambda endpoints to avoid cold-start 504s on first request
+    from backend.routers.search import original_service, finetuned_service
+    original_service.clip.warm_async()
+    finetuned_service.clip.warm_async()
 
 
 app.include_router(search.router)

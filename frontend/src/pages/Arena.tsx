@@ -29,11 +29,30 @@ interface VoteReveal {
 
 type Phase = 'idle' | 'loading' | 'voting' | 'revealed'
 
+const SAMPLE_IMAGES = [
+  'Capture.JPG',
+  ...[1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41].map(n => `Capture${n}.JPG`),
+]
+
 export default function Arena() {
   const [phase, setPhase] = useState<Phase>('idle')
   const [error, setError] = useState<string | null>(null)
   const [searchData, setSearchData] = useState<SearchResponse | null>(null)
   const [voteData, setVoteData] = useState<VoteReveal | null>(null)
+  const [samplePreview, setSamplePreview] = useState<string | null>(null)
+
+  async function handleSampleSelect(filename: string) {
+    const url = `/samples/${filename}`
+    setSamplePreview(url)
+    try {
+      const res = await fetch(url)
+      const blob = await res.blob()
+      const file = new File([blob], filename, { type: blob.type })
+      handleUpload(file)
+    } catch {
+      setError('Failed to load sample image')
+    }
+  }
 
   async function handleUpload(file: File) {
     setPhase('loading')
@@ -78,6 +97,7 @@ export default function Arena() {
     setSearchData(null)
     setVoteData(null)
     setError(null)
+    setSamplePreview(null)
   }
 
   return (
@@ -90,8 +110,35 @@ export default function Arena() {
       </div>
 
       <div className="max-w-md mx-auto w-full">
-        <ImageUploader onUpload={handleUpload} disabled={phase === 'loading' || phase === 'voting'} />
+        <ImageUploader
+          onUpload={handleUpload}
+          disabled={phase === 'loading' || phase === 'voting'}
+          previewOverride={samplePreview}
+        />
       </div>
+
+      {phase === 'idle' && (
+        <div className="max-w-2xl mx-auto w-full">
+          <p className="text-xs text-gray-500 uppercase tracking-widest mb-3 text-center">
+            — or pick a sample —
+          </p>
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-700">
+            {SAMPLE_IMAGES.map((filename) => (
+              <button
+                key={filename}
+                onClick={() => handleSampleSelect(filename)}
+                className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-indigo-500 transition-colors focus:outline-none focus:border-indigo-400"
+              >
+                <img
+                  src={`/samples/${filename}`}
+                  alt={filename}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {phase === 'loading' && (
         <div className="text-center text-gray-400 animate-pulse">Running both models...</div>

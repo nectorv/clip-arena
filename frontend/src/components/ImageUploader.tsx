@@ -3,11 +3,14 @@ import { useRef, useState } from 'react'
 interface Props {
   onUpload: (file: File) => void
   disabled: boolean
+  previewOverride?: string | null
 }
 
-export default function ImageUploader({ onUpload, disabled }: Props) {
+export default function ImageUploader({ onUpload, disabled, previewOverride }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [preview, setPreview] = useState<string | null>(null)
+
+  const activePreview = previewOverride ?? preview
 
   function handleFile(file: File) {
     setPreview(URL.createObjectURL(file))
@@ -32,7 +35,7 @@ export default function ImageUploader({ onUpload, disabled }: Props) {
       onClick={() => !disabled && inputRef.current?.click()}
       className={`relative border-2 border-dashed rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors
         ${disabled ? 'opacity-50 cursor-not-allowed border-gray-700' : 'border-gray-600 hover:border-indigo-500'}
-        ${preview ? 'h-64' : 'h-48'}`}
+        ${activePreview ? 'h-64' : 'h-48'}`}
     >
       <input
         ref={inputRef}
@@ -42,8 +45,8 @@ export default function ImageUploader({ onUpload, disabled }: Props) {
         onChange={handleChange}
         disabled={disabled}
       />
-      {preview ? (
-        <img src={preview} alt="preview" className="h-full w-full object-contain rounded-xl" />
+      {activePreview ? (
+        <img src={activePreview} alt="preview" className="h-full w-full object-contain rounded-xl" />
       ) : (
         <div className="text-center text-gray-500 select-none">
           <p className="text-4xl mb-2">+</p>
